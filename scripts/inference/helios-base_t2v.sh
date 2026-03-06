@@ -1,3 +1,7 @@
+# Example: Running inference with 2-GPU parallelism
+# CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node 2 infer_helios.py \
+#     --enable_parallelism \
+
 CUDA_VISIBLE_DEVICES=0 python infer_helios.py \
     --base_model_path "BestWishYsh/Helios-Base" \
     --transformer_path "BestWishYsh/Helios-Base" \

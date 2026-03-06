@@ -58,8 +58,9 @@ or you can click <a href="https://github.com/PKU-YuanGroup/Helios-Page/blob/main
 
 ## 📣 Latest News!!
 
-* `[2026.03.05]` 👋 We official release the [Gradio Demo](https://huggingface.co/spaces/BestWishYsh/Helios-14B-RealTime), welcome to try it.
-* `[2026.03.04]` 👋 We are excited to announce the release of the Helios [technical report](https://arxiv.org/abs/2603.04379) on arXiv. We welcome discussions and feedback!
+* `[2026.03.06]` 🚀 We fix the parallel inference code for Helios, and provide an example [here](#-parallel-inference-on-multiple-gpus). Thanks [Cache-DiT Team](https://github.com/vipshop/cache-dit/pull/836). 
+* `[2026.03.06]` 👋 We official release the [Gradio Demo](https://huggingface.co/spaces/BestWishYsh/Helios-14B-RealTime), welcome to try it.
+* `[2026.03.05]` 👋 We are excited to announce the release of the Helios [technical report](https://arxiv.org/abs/2603.04379) on arXiv. We welcome discussions and feedback!
 * `[2026.03.04]` 🚀 Day-0 support for [Ascend-NPU](https://www.hiascend.com)，with sincere gratitude to the Ascend Team for their support.
 * `[2026.03.04]` 🚀 Day-0 support for [Diffusers](https://github.com/huggingface/diffusers/pull/13208)，with special thanks to the HuggingFace Team for their support.
 * `[2026.03.04]` 🚀 Day-0 support for [vLLM-Omni](https://github.com/vllm-project/vllm-omni/pull/1604)，with heartfelt gratitude to the vLLM Team for their support.
@@ -181,6 +182,26 @@ Before trying your own inputs, we highly recommend going through the sanity chec
 | **T2V** | <video src="https://github.com/user-attachments/assets/14e10753-0366-4790-ad8f-7b66d821ed11" controls width="240"></video> | <video src="https://github.com/user-attachments/assets/c1778691-a80b-428c-8094-88bb1dd1d52b" controls width="240"></video> | <video src="https://github.com/user-attachments/assets/4ca28c79-9dfa-49de-9c3a-f4c7b6c766cd" controls width="240"></video> |
 | **V2V** | <video src="https://github.com/user-attachments/assets/420cb572-85c2-42d8-98d7-37b0bc24c844" controls width="240"></video> | <video src="https://github.com/user-attachments/assets/7d703fa6-dc1a-4138-a897-e58cfd9236d6" controls width="240"></video> | <video src="https://github.com/user-attachments/assets/45329c55-1a25-459c-bbf0-4e584ec5b23d" controls width="240"></video> |
 
+### 🚀 Parallel Inference on Multiple GPUs
+For example, let's take Helios-Base with 2 GPUs.
+
+<details>
+  <summary>Click to expand the code</summary>
+
+  ```bash
+  CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node 2 infer_helios.py \
+      --enable_parallelism \
+      --base_model_path "BestWishYsh/Helios-Base" \
+      --transformer_path "BestWishYsh/Helios-Base" \
+      --sample_type "t2v" \
+      --num_frames 99 \
+      --fps 24 \
+      --prompt "A vibrant tropical fish swimming gracefully among colorful coral reefs in a clear, turquoise ocean. The fish has bright blue and yellow scales with a small, distinctive orange spot on its side, its fins moving fluidly. The coral reefs are alive with a variety of marine life, including small schools of colorful fish and sea turtles gliding by. The water is crystal clear, allowing for a view of the sandy ocean floor below. The reef itself is adorned with a mix of hard and soft corals in shades of red, orange, and green. The photo captures the fish from a slightly elevated angle, emphasizing its lively movements and the vivid colors of its surroundings. A close-up shot with dynamic movement." \
+      --guidance_scale 5.0 \
+      --output_folder "./output_helios/helios-base"
+  ```
+  
+</details>
 
 ### ✨ Diffusers Pipeline
 
