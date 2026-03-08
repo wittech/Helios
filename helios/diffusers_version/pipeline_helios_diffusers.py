@@ -21,6 +21,7 @@ import numpy as np
 import regex as re
 import torch
 import torch.nn.functional as F
+from accelerate.utils import broadcast
 from transformers import AutoTokenizer, UMT5EncoderModel
 
 from diffusers.callbacks import MultiPipelineCallbacks, PipelineCallback
@@ -697,6 +698,7 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
                 batch_size, channel, num_frames, height, width = latents.shape
                 noise = self.sample_block_noise(batch_size, channel, num_frames, height, width, patch_size, device)
                 noise = noise.to(device=device, dtype=transformer_dtype)
+                noise = broadcast(noise, from_process=0)
                 latents = alpha * latents + beta * noise  # To fix the block artifact
 
                 if self.config.is_distilled:

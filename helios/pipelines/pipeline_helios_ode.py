@@ -21,6 +21,7 @@ from typing import Any, Callable, Dict, List, Optional, Union
 import regex as re
 import torch
 import torch.nn.functional as F
+from accelerate.utils import broadcast
 from einops import rearrange
 from transformers import AutoTokenizer, UMT5EncoderModel
 
@@ -677,6 +678,7 @@ class HeliosPipeline(DiffusionPipeline, WanLoraLoaderMixin):
                 batch_size, channel, num_frames, height, width = latents.shape
                 noise = self.sample_block_noise(batch_size, channel, num_frames, height, width)
                 noise = noise.to(device=device, dtype=transformer_dtype)
+                noise = broadcast(noise, from_process=0)
                 latents = alpha * latents + beta * noise  # To fix the block artifact
 
                 if use_dmd:
