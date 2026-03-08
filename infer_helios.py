@@ -5,17 +5,17 @@ import os
 os.environ["HF_ENABLE_PARALLEL_LOADING"] = "yes"
 os.environ["HF_PARALLEL_LOADING_WORKERS"] = "8"
 
-import time
 import argparse
-import pandas as pd
-from tqdm import tqdm
+import time
 
+import pandas as pd
 import torch
 import torch.distributed as dist
+from tqdm import tqdm
+
 
 if importlib.util.find_spec("torch_npu") is not None:
     import torch_npu
-    from torch_npu.contrib import transfer_to_npu
 else:
     torch_npu = None
 
@@ -549,8 +549,8 @@ def main():
                 interpolation_steps=args.interpolation_steps,
                 interpolate_time_list=interpolate_time_list,
             ).frames[0]
-                # elapsed_time = time.time() - start_time
-                # print(f"Inference time: {elapsed_time:.2f} seconds ({elapsed_time/60:.2f} minutes)")
+            # elapsed_time = time.time() - start_time
+            # print(f"Inference time: {elapsed_time:.2f} seconds ({elapsed_time/60:.2f} minutes)")
 
         if not args.enable_parallelism or rank == 0:
             file_count = len(

@@ -637,8 +637,8 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
         callback_on_step_end_tensor_inputs: list[str] = ["latents"],
         progress_bar=None,
     ):
-        batch_size, num_channel, num_frmaes, height, width = latents.shape
-        latents = latents.permute(0, 2, 1, 3, 4).reshape(batch_size * num_frmaes, num_channel, height, width)
+        batch_size, num_channel, num_frames, height, width = latents.shape
+        latents = latents.permute(0, 2, 1, 3, 4).reshape(batch_size * num_frames, num_channel, height, width)
         for _ in range(pyramid_num_stages - 1):
             height //= 2
             width //= 2
@@ -650,7 +650,7 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
                 )
                 * 2
             )
-        latents = latents.reshape(batch_size, num_frmaes, num_channel, height, width).permute(0, 2, 1, 3, 4)
+        latents = latents.reshape(batch_size, num_frames, num_channel, height, width).permute(0, 2, 1, 3, 4)
 
         batch_size = latents.shape[0]
         start_point_list = None
@@ -684,10 +684,10 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
                 width *= 2
                 num_frames = latents.shape[2]
                 latents = latents.permute(0, 2, 1, 3, 4).reshape(
-                    batch_size * num_frmaes, num_channel, height // 2, width // 2
+                    batch_size * num_frames, num_channel, height // 2, width // 2
                 )
                 latents = F.interpolate(latents, size=(height, width), mode="nearest")
-                latents = latents.reshape(batch_size, num_frmaes, num_channel, height, width).permute(0, 2, 1, 3, 4)
+                latents = latents.reshape(batch_size, num_frames, num_channel, height, width).permute(0, 2, 1, 3, 4)
                 # Fix the stage
                 ori_sigma = 1 - self.scheduler.ori_start_sigmas[i_s]  # the original coeff of signal
                 gamma = self.scheduler.config.gamma
@@ -695,9 +695,7 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
                 beta = alpha * (1 - ori_sigma) / math.sqrt(gamma)
 
                 batch_size, channel, num_frames, height, width = latents.shape
-                noise = self.sample_block_noise(
-                    batch_size, channel, num_frames, height, width, patch_size, device
-                )
+                noise = self.sample_block_noise(batch_size, channel, num_frames, height, width, patch_size, device)
                 noise = noise.to(device=device, dtype=transformer_dtype)
                 latents = alpha * latents + beta * noise  # To fix the block artifact
 
@@ -1153,8 +1151,11 @@ class HeliosPipeline(DiffusionPipeline, HeliosLoraLoaderMixin):
 
         if not is_enable_stage2:
             patch_size = self.transformer.config.patch_size
-            image_seq_len = num_latent_frames_per_chunk * (height // self.vae_scale_factor_spatial) * (width // self.vae_scale_factor_spatial) // (
-                patch_size[0] * patch_size[1] * patch_size[2]
+            image_seq_len = (
+                num_latent_frames_per_chunk
+                * (height // self.vae_scale_factor_spatial)
+                * (width // self.vae_scale_factor_spatial)
+                // (patch_size[0] * patch_size[1] * patch_size[2])
             )
             sigmas = np.linspace(0.999, 0.0, num_inference_steps + 1)[:-1] if sigmas is None else sigmas
             mu = calculate_shift(

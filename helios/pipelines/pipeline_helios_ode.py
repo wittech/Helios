@@ -617,7 +617,7 @@ class HeliosPipeline(DiffusionPipeline, WanLoraLoaderMixin):
         callback_on_step_end_tensor_inputs: list = None,
         progress_bar=None,
     ):
-        num_frmaes, height, width = (
+        num_frames, height, width = (
             latents.shape[-3],
             latents.shape[-2],
             latents.shape[-1],
@@ -634,7 +634,7 @@ class HeliosPipeline(DiffusionPipeline, WanLoraLoaderMixin):
                 )
                 * 2
             )
-        latents = rearrange(latents, "(b t) c h w -> b c t h w", t=num_frmaes)
+        latents = rearrange(latents, "(b t) c h w -> b c t h w", t=num_frames)
 
         batch_size = latents.shape[0]
         if use_dmd:
