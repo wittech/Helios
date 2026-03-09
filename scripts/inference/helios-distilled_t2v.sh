@@ -3,7 +3,7 @@
 #     --enable_parallelism \
 #     --cp_backend "ulysses" \   #  ["ring", "ulysses", "unified", "ulysses_anything"]
 
-CUDA_VISIBLE_DEVICES=0 python infer_helios.py \
+CUDA_VISIBLE_DEVICES=1 python infer_helios.py \
     --base_model_path "/data/models/Helios-Distilled" \
     --transformer_path "/data/models/Helios-Distilled" \
     --sample_type "t2v" \
