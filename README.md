@@ -55,31 +55,10 @@ or you can click <a href="https://www.youtube.com/watch?v=vd_AgHtOUFQ">here</a> 
 [![Demo Video of Helios](https://github.com/user-attachments/assets/1d10da4a-aba9-4ac1-ab02-cd0dfce8d35b)](https://www.youtube.com/watch?v=vd_AgHtOUFQ)
 or you can click <a href="https://github.com/PKU-YuanGroup/Helios-Page/blob/main/videos/helios_features.mp4">here</a> to get the video. Some best prompts are [here](./example/prompt.txt).
 
-<br>
-
-<details open><summary>💡 We also have other video generation projects that may interest you ✨. </summary><p>
-<!--  may -->
-
-> [**Open-Sora Plan: Open-Source Large Video Generation Model**](https://arxiv.org/abs/2412.00131) <br>
-> Bin Lin, Yunyang Ge and Xinhua Cheng etc. <br>
-[![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/Open-Sora-Plan)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/Open-Sora-Plan.svg?style=social)](https://github.com/PKU-YuanGroup/Open-Sora-Plan) [![arXiv](https://img.shields.io/badge/Arxiv-2412.00131-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2412.00131) <br>
->
-> [**OpenS2V-Nexus: A Detailed Benchmark and Million-Scale Dataset for Subject-to-Video Generation**](https://arxiv.org/abs/2505.20292) <br>
-> Shenghai Yuan, Xianyi He and Yufan Deng etc. <br>
-> [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/OpenS2V-Nexus)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/OpenS2V-Nexus.svg?style=social)](https://github.com/PKU-YuanGroup/OpenS2V-Nexus) [![arXiv](https://img.shields.io/badge/Arxiv-2505.20292-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2505.20292) <br>
->
-> [**ConsisID: Identity-Preserving Text-to-Video Generation by Frequency Decomposition**](https://arxiv.org/abs/2411.17440) <br>
-> Shenghai Yuan, Jinfa Huang and Xianyi He etc. <br>
-> [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/ConsisID/)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/ConsisID.svg?style=social)](https://github.com/PKU-YuanGroup/ConsisID/) [![arXiv](https://img.shields.io/badge/Arxiv-2411.17440-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2411.17440) <br>
-> 
-> [**MagicTime: Time-lapse Video Generation Models as Metamorphic Simulators**](https://arxiv.org/abs/2404.05014) <br>
-> Shenghai Yuan, Jinfa Huang and Yujun Shi etc. <br>
-> [![github](https://img.shields.io/badge/-Github-black?logo=github)](https://github.com/PKU-YuanGroup/MagicTime)  [![github](https://img.shields.io/github/stars/PKU-YuanGroup/MagicTime.svg?style=social)](https://github.com/PKU-YuanGroup/MagicTime) [![arXiv](https://img.shields.io/badge/Arxiv-2404.05014-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2404.05014) <br>
-> </p></details>
-
 
 ## 📣 Latest News!!
 
+* `[2026.03.08]` 👋 Helios now fully supports [Group Offloading](#-group-offloading-to-save-vram) and [Context Parallelism](#-context-parallelism-on-multiple-gpus)! These features significantly optimize VRAM (**only ~6GB**) usage and enable inference across multiple GPUs with *Ulysses Attention*, *Ring Attention*, *Unified Attention*, and *Ulysses Anything Attention*.
 * `[2026.03.06]` 🚀 [Cache-DiT](https://github.com/vipshop/cache-dit/pull/834) now supports Helios, it offers Fully Cache Acceleration and Parallelism support for Helios! Special thanks to the Cache-DiT Team for their amazing work.
 * `[2026.03.06]` 🚀 We fix the Parallel Inference logits for Helios, and provide an example [here](#-parallel-inference-on-multiple-gpus). Thanks [Cache-DiT Team](https://github.com/vipshop/cache-dit/pull/836). 
 * `[2026.03.06]` 👋 We official release the [Gradio Demo](https://huggingface.co/spaces/BestWishYsh/Helios-14B-RealTime), welcome to try it.
@@ -205,15 +184,46 @@ Before trying your own inputs, we highly recommend going through the sanity chec
 | **T2V** | <video src="https://github.com/user-attachments/assets/14e10753-0366-4790-ad8f-7b66d821ed11" controls width="240"></video> | <video src="https://github.com/user-attachments/assets/c1778691-a80b-428c-8094-88bb1dd1d52b" controls width="240"></video> | <video src="https://github.com/user-attachments/assets/4ca28c79-9dfa-49de-9c3a-f4c7b6c766cd" controls width="240"></video> |
 | **V2V** | <video src="https://github.com/user-attachments/assets/420cb572-85c2-42d8-98d7-37b0bc24c844" controls width="240"></video> | <video src="https://github.com/user-attachments/assets/7d703fa6-dc1a-4138-a897-e58cfd9236d6" controls width="240"></video> | <video src="https://github.com/user-attachments/assets/45329c55-1a25-459c-bbf0-4e584ec5b23d" controls width="240"></video> |
 
-### ✨ Parallel Inference on Multiple GPUs
-For example, let's take Helios-Base with 2 GPUs.
+
+### ✨ Group Offloading to Save VRAM
+
+Helios supports group offloading to significantly reduce VRAM consumption, allowing you to run on GPU with limited memory footprint. For more details on the underlying mechanics, please refer to the [documentation](https://huggingface.co/docs/diffusers/main/en/optimization/memory#group-offloading).
+
+The Helios model below requires `~6GB of VRAM`.
 
 <details>
   <summary>Click to expand the code</summary>
 
   ```bash
-  CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node 2 infer_helios.py \
-      --enable_parallelism \
+  CUDA_VISIBLE_DEVICES=0 python infer_helios.py \
+      --base_model_path "BestWishYsh/Helios-Distilled" \
+      --transformer_path "BestWishYsh/Helios-Distilled" \
+      --sample_type "t2v" \
+      --prompt "A vibrant tropical fish swimming gracefully among colorful coral reefs in a clear, turquoise ocean. The fish has bright blue and yellow scales with a small, distinctive orange spot on its side, its fins moving fluidly. The coral reefs are alive with a variety of marine life, including small schools of colorful fish and sea turtles gliding by. The water is crystal clear, allowing for a view of the sandy ocean floor below. The reef itself is adorned with a mix of hard and soft corals in shades of red, orange, and green. The photo captures the fish from a slightly elevated angle, emphasizing its lively movements and the vivid colors of its surroundings. A close-up shot with dynamic movement." \
+      --num_frames 240 \
+      --guidance_scale 1.0 \
+      --is_enable_stage2 \
+      --pyramid_num_inference_steps_list 2 2 2 \
+      --is_amplify_first_chunk \
+      --output_folder "./output_helios/helios-distilled" \
+      --enable_low_vram_mode \
+      --group_offloading_type "leaf_level"
+  ```
+  
+</details>
+
+### ✨ Context Parallelism on Multiple GPUs
+Helios supports various Context Parallelism mechanisms, including `Ulysses Attention`, `Ring Attention`, `Unified Attention`, and `Ulysses Anything Attention`. For more details, please refer to the [documentation](https://huggingface.co/docs/diffusers/main/en/training/distributed_inference#context-parallelism).
+
+For example, let's take Helios-Base with 4 GPUs.
+
+<details>
+  <summary>Click to expand the code</summary>
+
+  ```bash
+  CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node 4 infer_helios.py \
+      --enable_parallelism \     #  remember to enable this config
+      --cp_backend "ulysses" \   #  ["ring", "ulysses", "unified", "ulysses_anything"]
       --base_model_path "BestWishYsh/Helios-Base" \
       --transformer_path "BestWishYsh/Helios-Base" \
       --sample_type "t2v" \
@@ -233,7 +243,101 @@ Install diffusers from source:
 pip install git+https://github.com/huggingface/diffusers.git
 ```
 
-For example, let's take Helios-Distilled.
+For example, let's take Helios-Distilled (**Standard Pipeline**).
+
+<details>
+  <summary>Click to expand the code</summary>
+
+  ```bash
+  import torch
+  from diffusers import AutoModel, HeliosPyramidPipeline
+  from diffusers.utils import export_to_video, load_video, load_image
+
+  vae = AutoModel.from_pretrained("BestWishYsh/Helios-Distilled", subfolder="vae", torch_dtype=torch.float32)
+
+  pipeline = HeliosPyramidPipeline.from_pretrained(
+      "BestWishYsh/Helios-Distilled",
+      vae=vae,
+      torch_dtype=torch.bfloat16
+  )
+  pipeline.to("cuda")
+
+  negative_prompt = """
+  Bright tones, overexposed, static, blurred details, subtitles, style, works, paintings, images, static, overall gray, worst quality,
+  low quality, JPEG compression residue, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn faces, deformed, disfigured,
+  misshapen limbs, fused fingers, still picture, messy background, three legs, many people in the background, walking backwards
+  """
+
+  # --- T2V ---
+  prompt = """
+  A vibrant tropical fish swimming gracefully among colorful coral reefs in a clear, turquoise ocean. The fish has bright blue 
+  and yellow scales with a small, distinctive orange spot on its side, its fins moving fluidly. The coral reefs are alive with 
+  a variety of marine life, including small schools of colorful fish and sea turtles gliding by. The water is crystal clear, 
+  allowing for a view of the sandy ocean floor below. The reef itself is adorned with a mix of hard and soft corals in shades 
+  of red, orange, and green. The photo captures the fish from a slightly elevated angle, emphasizing its lively movements and 
+  the vivid colors of its surroundings. A close-up shot with dynamic movement.
+  """
+
+  output = pipeline(
+      prompt=prompt,
+      negative_prompt=negative_prompt,
+      num_frames=240,
+      pyramid_num_inference_steps_list=[2, 2, 2],
+      guidance_scale=1.0,
+      is_amplify_first_chunk=True,
+      generator=torch.Generator("cuda").manual_seed(42),
+  ).frames[0]
+  export_to_video(output, "helios_distilled_t2v_output.mp4", fps=24)
+
+  # --- I2V ---
+  i2v_prompt = """
+  A towering emerald wave surges forward, its crest curling with raw power and energy. Sunlight glints off the translucent water, 
+  illuminating the intricate textures and deep green hues within the wave’s body. A thick spray erupts from the breaking crest, 
+  casting a misty veil that dances above the churning surface. As the perspective widens, the immense scale of the wave becomes 
+  apparent, revealing the restless expanse of the ocean stretching beyond. The scene captures the ocean’s untamed beauty and 
+  relentless force, with every droplet and ripple shimmering in the light. The dynamic motion and vivid colors evoke both awe and 
+  respect for nature’s might.
+  """
+  image_path = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/diffusers/helios/wave.jpg"
+
+  output = pipeline(
+      prompt=i2v_prompt,
+      negative_prompt=negative_prompt,
+      image=load_image(image_path).resize((640, 384)),
+      num_frames=240,
+      pyramid_num_inference_steps_list=[2, 2, 2],
+      guidance_scale=1.0,
+      is_amplify_first_chunk=True,
+      generator=torch.Generator("cuda").manual_seed(42),
+  ).frames[0]
+  export_to_video(output, "helios_distilled_i2v_output.mp4", fps=24)
+
+  # --- V2V ---
+  v2v_prompt = """
+  A bright yellow Lamborghini Huracn Tecnica speeds along a curving mountain road, surrounded by lush green trees 
+  under a partly cloudy sky. The car's sleek design and vibrant color stand out against the natural backdrop, 
+  emphasizing its dynamic movement. The road curves gently, with a guardrail visible on one side, adding depth to 
+  the scene. The motion blur captures the sense of speed and energy, creating a thrilling and exhilarating atmosphere. 
+  A front-facing shot from a slightly elevated angle, highlighting the car's aggressive stance and the surrounding greenery.
+  """
+  video_path = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/diffusers/helios/car.mp4"
+
+  output = pipeline(
+      prompt=v2v_prompt,
+      negative_prompt=negative_prompt,
+      video=load_video(video_path),
+      num_frames=240,
+      pyramid_num_inference_steps_list=[2, 2, 2],
+      guidance_scale=1.0,
+      is_amplify_first_chunk=True,
+      generator=torch.Generator("cuda").manual_seed(42),
+  ).frames[0]
+  export_to_video(output, "helios_distilled_v2v_output.mp4", fps=24)
+  ```
+
+</details>
+
+For example, let's take Helios-Distilled (**Modular Pipeline**).
 
 <details>
   <summary>Click to expand the code</summary>
