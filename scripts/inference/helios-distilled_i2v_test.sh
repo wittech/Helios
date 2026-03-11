@@ -7,10 +7,8 @@ CUDA_VISIBLE_DEVICES=1 python infer_helios.py \
     --base_model_path "/data/models/Helios-Distilled" \
     --transformer_path "/data/models/Helios-Distilled" \
     --sample_type "i2v" \
-    --image_path "/data/input/唐老师原图未加工.jpg" \
-    --width 384 \
-    --height 640 \
-    --prompt "A man is talking." \
+    --image_path "/data/input/tang640.jpg" \
+    --prompt "A man speaks to the camera, which remains still. He has a slight smile, with both hands resting naturally and motionless. The lighting is highly cinematic with soft golden light, the background features Parisian streets and city scenery, with a depth of field effect and a cinematic 35mm film texture." \
     --num_frames 240 \
     --guidance_scale 1.0 \
     --is_enable_stage2 \
