@@ -173,7 +173,7 @@ def save_extra_components(args, model=None, model_state_dict=None, output_dir=No
         or args.training_config.is_train_lora_multi_term_memory_patchg
     ):
         patch_names = ["patch_short", "patch_mid", "patch_long"]
-        
+
         if use_state_dict:
             # Extract from state_dict
             for k, v in model_state_dict.items():
@@ -256,19 +256,17 @@ def load_extra_components(args, model, checkpoint_path):
     # Load patch modules (formerly multi_term_memory_patchg)
     if args.training_config.is_enable_stage1:
         patch_names = ["patch_short", "patch_mid", "patch_long"]
-        
+
         for p_name in patch_names:
             patch_keys_in_sd = [k for k in state_dict.keys() if k.startswith(f"{p_name}.")]
             if patch_keys_in_sd and hasattr(model, p_name):
                 patch_state = {
-                    k.replace(f"{p_name}.", ""): v
-                    for k, v in state_dict.items()
-                    if k.startswith(f"{p_name}.")
+                    k.replace(f"{p_name}.", ""): v for k, v in state_dict.items() if k.startswith(f"{p_name}.")
                 }
                 patch_module = getattr(model, p_name)
                 load_info = patch_module.load_state_dict(patch_state, strict=False)
                 loaded_keys.update(patch_keys_in_sd)
-                
+
                 print(f"Loaded {len(patch_keys_in_sd)} parameters for {p_name}")
                 if load_info.missing_keys:
                     print(f"  Missing keys in {p_name}: {load_info.missing_keys}")

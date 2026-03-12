@@ -431,8 +431,7 @@ def main(args):
     # get fake score model
     if args.training_config.is_train_dmd:
         critic_target_modules = [
-            m for m in target_modules 
-            if m not in ["patch_short", "patch_mid", "patch_long", "patch_embedding"]
+            m for m in target_modules if m not in ["patch_short", "patch_mid", "patch_long", "patch_embedding"]
         ]
         critic_exclude_modules = list(args.model_config.lora_exclude_modules) + [
             "patch_short",
