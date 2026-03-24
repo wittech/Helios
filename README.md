@@ -557,7 +557,7 @@ Training configuration can be adjusted in `scripts/training/configs`. You can us
 
 ### Model Merging
 
-After training, you can use this [script](https://github.com/PKU-YuanGroup/Helios/blob/main/tools/merge_lora.py) to merge all the checkpoints and obtain the final safetensors file, similar to [this](https://huggingface.co/BestWishYsh/Helios-Distilled/tree/main/transformer).
+After training, you can use this [script](./tools/merge_lora_for_helios.py) to merge all the checkpoints and obtain the final safetensors file, similar to [this](https://huggingface.co/BestWishYsh/Helios-Distilled/tree/main/transformer).
 
 
 ## 📊 HeliosBench
