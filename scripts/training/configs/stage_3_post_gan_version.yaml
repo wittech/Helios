@@ -4,7 +4,7 @@ seed: 49
 
 
 report_to:
-  tracker_name: Wan-Train
+  tracker_name: Helios-Train
   wandb_name: ablation_stage_3_post_gan_version
   report_to: wandb
 
@@ -83,6 +83,9 @@ validation_config:
     - 9
   num_validation_videos: 1
   num_inference_steps: 6
+  # ---- Dynamic Shifting ----
+  use_dynamic_shifting: true
+  time_shift_type: "linear"  # ["exponential", "linear"]
   # ---- Pyramid ----
   stage2_simulated_inference_steps:
     - 2

@@ -150,7 +150,7 @@ def parse_args():
     )
 
     # === Context parallelism ===
-    # Please refer to https://huggingface.co/docs/diffusers/v0.37.0/en/training/distributed_inference#context-parallelism
+    # Please refer to https://huggingface.co/docs/diffusers/main/en/training/distributed_inference#context-parallelism
     parser.add_argument("--enable_parallelism", action="store_true")
     parser.add_argument(
         "--cp_backend",
@@ -161,7 +161,7 @@ def parse_args():
     )
 
     # === Group-Offloading ===
-    # Please refer to https://huggingface.co/docs/diffusers/v0.37.0/en/optimization/memory#group-offloading
+    # Please refer to https://huggingface.co/docs/diffusers/main/en/optimization/memory#group-offloading
     parser.add_argument("--enable_low_vram_mode", action="store_true")
     parser.add_argument(
         "--group_offloading_type",
